@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>جام زوج و فرد</title>
+<style>
+:root{--t1:#1d6fd1;--t2:#c2185b;--ink:#1b2a41;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Tahoma,"Vazirmatn",sans-serif;color:var(--ink);background:repeating-linear-gradient(0deg,#1e8c4b 0 70px,#25a45a 70px 140px);background-attachment:fixed;user-select:none}
+.fl{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.fl span{position:absolute;font-size:28px;opacity:.45;animation:fl 6s ease-in-out infinite alternate}
+@keyframes fl{to{transform:translateY(-22px) rotate(12deg)}}
+#top{position:sticky;top:0;z-index:5;display:none;justify-content:space-between;align-items:center;padding:8px 14px;background:#ffffffdd;font-weight:bold;box-shadow:0 3px 10px #0003}
+#cd{font-size:20px;color:#e0245e;direction:ltr;letter-spacing:1px;background:#fff0f5;border-radius:14px;padding:2px 12px;border:2px dashed #ff6fb5}
+main{position:relative;max-width:560px;margin:0 auto;padding:16px}
+.card{background:#fffdf5;border-top:8px solid var(--t2);border-radius:26px;padding:20px;box-shadow:0 10px 0 #0002,0 14px 30px #0003;margin-bottom:14px;text-align:center}
+h1{margin:0 0 6px;font-size:26px;color:#fff;text-shadow:0 3px 0 #0003;text-align:center}
+h2{margin:6px 0}
+.big{font-size:64px;line-height:1.2;font-weight:bold;color:var(--t1)}
+.mas{font-size:70px;animation:bn 1.4s infinite}
+@keyframes bn{50%{transform:translateY(-10px)}}
+input{font:inherit;width:100%;padding:12px;margin:6px 0;border-radius:16px;border:3px solid #d9c8ff;text-align:center;user-select:text}
+textarea{font:inherit;width:100%;min-height:80px;border-radius:14px;border:3px solid #d9c8ff;padding:8px;direction:ltr;user-select:text}
+button{font:inherit;cursor:pointer;border:0;border-radius:18px;padding:13px 22px;font-weight:bold;color:#fff;background:var(--t1);box-shadow:0 5px 0 var(--t2);margin:4px}
+button:active{transform:translateY(3px);box-shadow:0 2px 0 var(--t2)}
+.opts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.opts button{flex:1;min-width:90px;font-size:24px;background:var(--t1);box-shadow:0 5px 0 var(--t2)}
+.opts button.ok{background:#22c55e;box-shadow:0 5px 0 #15803d}
+.opts button.no{background:#ef4444;box-shadow:0 5px 0 #991b1b}
+.opts button:disabled{opacity:1}
+.tb{height:16px;background:#eadfff;border-radius:10px;overflow:hidden;margin:8px 0}
+.tb i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#22c55e,#facc15,#ef4444)}
+.meta{display:flex;justify-content:space-between;font-weight:bold;color:#7a5cc7}
+.stars{font-size:34px;letter-spacing:4px}
+.code{direction:ltr;word-break:break-all;background:#f3ecff;border:3px dashed #7c4dff;border-radius:14px;padding:10px;font-family:monospace;font-size:13px;user-select:text;text-align:left}
+.lnk{background:none;box-shadow:none;color:#fff;font-size:13px;text-decoration:underline;display:block;margin:10px auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:7px 3px;border-bottom:1px solid #e6dcff}
+.sc{overflow-x:auto}
+ul{text-align:right;line-height:2;padding-right:20px;margin:6px 0}
+.b2{background:linear-gradient(135deg,#34d399,#0ea5e9);box-shadow:0 5px 0 #0b7285}
+</style>
+</head>
+<body>
+<div class="fl"><span style="top:12%;right:6%">⚽</span><span style="top:30%;left:5%">🥅</span><span style="top:55%;right:8%">🏆</span><span style="top:75%;left:10%">👟</span><span style="top:88%;right:30%">⚽</span><span style="top:8%;left:35%">🏟️</span></div>
+<div id="top"><span id="st"></span><span>⏳ <span id="cd"></span></span></div>
+<main id="app"></main>
+<script>
+const SECRET='zf-1378-kh9',PASS='1378';
+const PER=7,NST=7,DAY=864e5,QT=60000;
+const ST=[['گرم‌کردن','🏃'],['پاس‌های طلایی','🎯'],['ضربه‌ی آزاد','🥅'],['نیمه‌ی اول','⚽'],['نیمه‌ی دوم','🔥'],['وقت اضافه','⏱️'],['پنالتی‌های سرنوشت‌ساز','🏆']];
+const TEAMS={r:{n:'رئال مادرید',t1:'#1d2d7a',t2:'#febe10'},b:{n:'بارسلونا',t1:'#004d98',t2:'#a50044'}};
+const Q=(()=>{let s=1378;const R=()=>{s=(s+0x6D2B79F5)|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const dg=[1,2,2,3,3,4,4],ty=['c','e','c','o','c','e','o'],out=[];
+const num=(d,par)=>{let n;do{n=d===1?1+Math.floor(R()*9):Math.pow(10,d-1)+Math.floor(R()*9*Math.pow(10,d-1))}while(n%2!==par);return n};
+for(let g=0;g<NST;g++)for(let k=0;k<PER;k++){const d=dg[g],t=ty[(k+g)%7];
+ if(t==='c')out.push(['c',num(d,(k+g)%2)]);
+ else{const want=t==='e'?0:1,a=[];while(a.length<2){const x=num(d,1-want);if(!a.includes(x))a.push(x)}a.splice(Math.floor(R()*3),0,num(d,want));out.push([t,a])}}
+return out})();
+const TOTAL=Q.length;
+const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const app=document.getElementById('app');
+let mem={};
+const ld=k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):mem[k]||null}catch(e){return mem[k]||null}};
+const sv=(k,v)=>{mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const rm=k=>{delete mem[k];try{localStorage.removeItem(k)}catch(e){}};
+const H=s=>{let a=1779033703,b=3144134277,c=1013904242,d=2773480762;for(let i=0;i<s.length;i++){const k=s.charCodeAt(i);a=b^Math.imul(a^k,597399067);b=c^Math.imul(b^k,2869860233);c=d^Math.imul(c^k,951274213);d=a^Math.imul(d^k,2716044179)}return(a>>>0).toString(36)+(b>>>0).toString(36)+(c>>>0).toString(36)};
+const mkCode=()=>{const p=JSON.stringify({n:S.name,c:S.correct,s:S.status,t:Date.now()});return btoa(unescape(encodeURIComponent(p)))+'.'+H(p+SECRET)};
+const rdCode=x=>{try{x=x.trim();const i=x.lastIndexOf('.');const p=decodeURIComponent(escape(atob(x.slice(0,i))));if(H(p+SECRET)!==x.slice(i+1))return null;return JSON.parse(p)}catch(e){return null}};
+const label={done:'کامل ✅',lock:'قفل شد (خروج از صفحه) 🔒',time:'پایان زمان ⏰'};
+let S=ld('zf_state'),qiv=null,cdv=null,busy=false;
+
+function dlg(msg,yes){const o=document.createElement('div');o.style.cssText='position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:99;padding:20px';o.innerHTML='<div class="card" style="max-width:360px;margin:0"><p style="font-size:17px">'+msg+'</p><button id="y">'+(yes?'باشه':'متوجه شدم')+'</button>'+(yes?'<button id="n" class="b2">انصراف</button>':'')+'</div>';document.body.appendChild(o);o.querySelector('#y').onclick=()=>{o.remove();if(yes)yes()};const n=o.querySelector('#n');if(n)n.onclick=()=>o.remove()}
+function setTheme(k){const t=TEAMS[k]||{t1:'#1d6fd1',t2:'#c2185b'};const d=document.documentElement.style;d.setProperty('--t1',t.t1);d.setProperty('--t2',t.t2)}
+function updSt(){document.getElementById('st').textContent='👤 '+S.name+' ⚽ '+fa(S.correct)+' - '+fa(S.qi-S.correct)}
+function tick(){
+  if(!S||!S.start)return;
+  const left=Math.max(0,DAY-(Date.now()-S.start));
+  const h=Math.floor(left/36e5),m=Math.floor(left%36e5/6e4),s=Math.floor(left%6e4/1e3);
+  document.getElementById('cd').textContent=[h,m,s].map(x=>String(x).padStart(2,'0')).join(':');
+  if(left<=0&&S.status==='playing')lock('time');
+}
+function showTop(on){const t=document.getElementById('top');t.style.display=on?'flex':'none';if(on){updSt();tick();clearInterval(cdv);cdv=setInterval(tick,1000)}else clearInterval(cdv)}
+
+function home(){
+  showTop(false);setTheme(null);
+  app.innerHTML='<h1>⚽ جام زوج و فرد ⚽</h1><div class="card"><div class="mas">⚽</div><h2>سلام ستاره‌ی کوچولوی فوتبال!</h2><p>تیمت را انتخاب کن:</p><div class="opts" id="tm"><button data-t="r" style="background:#1d2d7a;box-shadow:0 5px 0 #febe10">👑 رئال مادرید</button><button data-t="b" style="background:#004d98;box-shadow:0 5px 0 #a50044">🔵🔴 بارسلونا</button></div><ul><li>۷ مرحله‌ی مسابقه، هر مرحله ۷ سؤال ⚽</li><li>برای هر سؤال ۱ دقیقه وقت داری ⏱️</li><li>هر جواب درست یک گل برای تیم توست! 🥅</li><li>بعد از شروع، نباید از صفحه خارج شوی؛ وگرنه بازی قفل می‌شود 🔒</li></ul><input id="fn" placeholder="نام"><input id="ln" placeholder="نام خانوادگی"><button id="go">شروع ماجراجویی 🚀</button></div><button class="lnk" id="tl">👩‍🏫 ورود معلم</button>';
+  document.getElementById('tl').onclick=tLogin;
+  let team=null;document.querySelectorAll('#tm button').forEach(b=>b.onclick=()=>{team=b.dataset.t;setTheme(team);document.querySelectorAll('#tm button').forEach(x=>x.style.outline='');b.style.outline='4px solid #fff'});
+  document.getElementById('go').onclick=()=>{
+    const f=document.getElementById('fn').value.trim(),l=document.getElementById('ln').value.trim();
+    if(!f||!l){dlg('نام و نام خانوادگی را کامل بنویس 🙂');return}
+    if(!team){dlg('اول تیمت را انتخاب کن ⚽');return}
+    dlg('بعد از شروع نمی‌توانی از صفحه خارج شوی. آماده‌ای؟',()=>{S={name:f+' '+l,team,start:Date.now(),qi:0,correct:0,sc:Array(NST).fill(0),status:'playing',seen:-1};sv('zf_state',S);next()});
+  };
+}
+
+function next(){
+  if(S.qi>=TOTAL){S.status='done';sv('zf_state',S);return final()}
+  showTop(true);setTheme(S.team);
+  if(S.qi%PER===0&&S.seen!==S.qi)return intro();
+  ask();
+}
+function intro(){
+  const g=Math.floor(S.qi/PER),t=ST[g];
+  const prev=g>0?'<p>مرحله‌ی قبل: '+fa(S.sc[g-1])+' گل از '+fa(PER)+' ⚽</p>':'';
+  updSt();
+  app.innerHTML='<div class="card"><div class="mas">'+t[1]+'</div><h2>مرحله‌ی '+fa(g+1)+': '+t[0]+'</h2>'+prev+'<p>'+fa(PER)+' سؤال در انتظار توست!</p><button id="b">بزن بریم! 🎉</button></div>';
+  document.getElementById('b').onclick=()=>{S.seen=S.qi;sv('zf_state',S);ask()};
+}
+function ask(){
+  const [ty,v]=Q[S.qi],g=Math.floor(S.qi/PER);
+  const txt=ty==='c'?'این عدد زوجه یا فرد؟':ty==='e'?'کدام عدد زوج است؟':'کدام عدد فرد است؟';
+  const ok=ty==='c'?(v%2===0?'z':'f'):(ty==='e'?v.find(x=>x%2===0):v.find(x=>x%2===1));
+  const opts=ty==='c'?[['z','زوج 💎'],['f','فرد 🍀']]:v.map(x=>[x,fa(x)]);
+  app.innerHTML='<div class="card"><div class="meta"><span>'+ST[g][1]+' مرحله '+fa(g+1)+'</span><span>سؤال '+fa(S.qi%PER+1)+' از '+fa(PER)+'</span><span id="sl">۶۰</span></div><div class="tb"><i id="tb"></i></div><h2>'+txt+'</h2>'+(ty==='c'?'<div class="big">'+fa(v)+'</div>':'')+'<div class="opts" id="op"></div></div>';
+  const op=document.getElementById('op');busy=false;
+  opts.forEach(([k,l])=>{const b=document.createElement('button');b.textContent=l;b.onclick=()=>answer(k,ok,op);b.dataset.k=k;op.appendChild(b)});
+  const dl=Date.now()+QT;clearInterval(qiv);
+  qiv=setInterval(()=>{const left=Math.max(0,dl-Date.now());document.getElementById('tb').style.width=left/QT*100+'%';document.getElementById('sl').textContent=fa(Math.ceil(left/1000));if(left<=0)answer(null,ok,op)},100);
+}
+function answer(k,ok,op){
+  if(busy||S.status!=='playing')return;busy=true;clearInterval(qiv);
+  const right=String(k)===String(ok);
+  if(right){S.correct++;S.sc[Math.floor(S.qi/PER)]++}
+  op.querySelectorAll('button').forEach(b=>{b.disabled=true;if(String(b.dataset.k)===String(ok))b.classList.add('ok');else if(String(b.dataset.k)===String(k))b.classList.add('no')});
+  S.qi++;sv('zf_state',S);
+  setTimeout(()=>{if(S.status==='playing')next()},1000);
+}
+function lock(why){
+  if(!S||S.status!=='playing')return;
+  clearInterval(qiv);S.status=why;sv('zf_state',S);final();
+}
+function final(){
+  clearInterval(qiv);showTop(false);setTheme(S.team);
+  const done=S.status==='done',p=S.correct/TOTAL;
+  const code=mkCode();
+  app.innerHTML='<h1>'+(done?'🏆 سوت پایان! بازی تمام شد 🏆':'🔒 بازی قفل شد')+'</h1><div class="card"><div class="mas">'+(done?(p>=.8?'🏆':p>=.5?'⚽':'🌱'):'⏰')+'</div><h2>'+esc(S.name)+'</h2>'+(done?'':'<p style="color:#c0264b">'+(S.status==='time'?'زمان بازی تمام شد.':'چون از صفحه خارج شدی، بازی قفل شد.')+'</p>')+'<p style="font-size:22px">نتیجه‌ی بازی: <b>'+fa(S.correct)+' - '+fa(TOTAL-S.correct)+'</b></p><p style="font-size:22px">نمره: <b>'+fa(S.correct)+'</b> از '+fa(TOTAL)+'</p><p>کد رمزینه‌ات را کپی کن و برای معلم بفرست 👇</p><div class="code" id="cd2">'+code+'</div><button id="cp" class="b2">📋 کپی کد</button></div><button class="lnk" id="tl">👩‍🏫 ورود معلم</button>';
+  document.getElementById('cp').onclick=()=>copy(code,document.getElementById('cp'));
+  document.getElementById('tl').onclick=tLogin;
+}
+function copy(t,btn){
+  const ok=()=>{const o=btn.textContent;btn.textContent='✅ کپی شد!';setTimeout(()=>btn.textContent=o,1500)};
+  const fb=()=>{const e=document.createElement('textarea');e.value=t;document.body.appendChild(e);e.select();try{document.execCommand('copy');ok()}catch(x){dlg('کد را دستی انتخاب و کپی کن')}e.remove()};
+  navigator.clipboard?navigator.clipboard.writeText(t).then(ok,fb):fb();
+}
+
+// ----- پنل معلم -----
+function tLogin(){
+  app.innerHTML='<h1>👩‍🏫 پنل معلم</h1><div class="card"><p>رمز ورود را وارد کنید:</p><input id="pw" type="password" placeholder="رمز" inputmode="numeric"><button id="ok">ورود</button><button id="bk" class="b2">بازگشت</button></div>';
+  document.getElementById('bk').onclick=back;
+  document.getElementById('ok').onclick=()=>{document.getElementById('pw').value===PASS?tPanel():dlg('رمز اشتباه است')};
+}
+function back(){S&&S.status!=='playing'?final():home()}
+function tPanel(msg){
+  const L=ld('zf_teacher')||[];
+  const rows=L.map((r,i)=>'<tr><td>'+esc(r.n)+'</td><td><b>'+fa(r.c)+'</b>/'+fa(TOTAL)+'</td><td>'+label[r.s]+'</td><td><button style="padding:3px 9px;box-shadow:none;margin:0" data-i="'+i+'">✖</button></td></tr>').join('')||'<tr><td colspan="4">هنوز موردی ثبت نشده</td></tr>';
+  app.innerHTML='<h1>👩‍🏫 لیست کلاسی</h1><div class="card"><p>کد رمزینه‌ی دانش‌آموز را اینجا بچسبانید:</p><textarea id="cin" placeholder="کد را اینجا paste کنید"></textarea><button id="add">ثبت نتیجه ✅</button><div id="msg" style="min-height:22px;font-weight:bold">'+(msg||'')+'</div></div><div class="card"><h2>نتایج ('+fa(L.length)+' نفر)</h2><div class="sc"><table><thead><tr><th>نام</th><th>نمره</th><th>وضعیت</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div><button id="csv" class="b2">⬇️ دانلود فایل اکسل (CSV)</button><button id="cpl" class="b2">📋 کپی لیست</button><button id="rs">🔄 شروع دانش‌آموز جدید روی این دستگاه</button></div><button class="lnk" id="bk">بازگشت</button>';
+  document.getElementById('bk').onclick=back;
+  document.getElementById('add').onclick=()=>{
+    const r=rdCode(document.getElementById('cin').value);
+    if(!r)return tPanel('❌ کد نامعتبر است یا دستکاری شده.');
+    const k=r.n+'|'+r.t;if(L.some(x=>x.n+'|'+x.t===k))return tPanel('⚠️ این کد قبلاً ثبت شده.');
+    L.push(r);L.sort((a,b)=>a.n.localeCompare(b.n,'fa'));sv('zf_teacher',L);tPanel('✅ ثبت شد: '+esc(r.n)+' — نمره '+fa(r.c));
+  };
+  document.querySelectorAll('td button').forEach(b=>b.onclick=()=>{dlg('حذف شود؟',()=>{L.splice(+b.dataset.i,1);sv('zf_teacher',L);tPanel()})});
+  const txt=()=>L.map(r=>r.n+'\t'+r.c+'/'+TOTAL+'\t'+label[r.s]).join('\n');
+  document.getElementById('cpl').onclick=e=>copy(txt(),e.target);
+  document.getElementById('csv').onclick=()=>{
+    const c='\ufeffنام,نمره,از,وضعیت\n'+L.map(r=>'"'+r.n+'",'+r.c+','+TOTAL+','+label[r.s]).join('\n');
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv;charset=utf-8'}));a.download='لیست-نمرات.csv';a.click();
+  };
+  document.getElementById('rs').onclick=()=>{dlg('بازی ذخیره‌شده‌ی این دستگاه پاک شود تا دانش‌آموز دیگری بازی کند؟ (لیست نمرات پاک نمی‌شود)',()=>{rm('zf_state');S=null;home()})};
+}
+
+// ----- قفل خروج از صفحه -----
+document.addEventListener('visibilitychange',()=>{if(document.hidden)lock('lock')});
+window.addEventListener('pagehide',()=>lock('lock'));
+window.addEventListener('blur',()=>lock('lock'));
+window.addEventListener('beforeunload',e=>{if(S&&S.status==='playing'){S.status='lock';sv('zf_state',S);e.preventDefault();e.returnValue=''}});
+document.addEventListener('contextmenu',e=>{if(S&&S.status==='playing')e.preventDefault()});
+
+// ----- شروع -----
+if(S&&S.start){
+  if(S.status==='playing')S.status='lock';
+  if(S.status==='lock'&&Date.now()-S.start>=DAY)S.status='time';
+  sv('zf_state',S);final();
+}else home();
+</script>
+</body>
+</html>
